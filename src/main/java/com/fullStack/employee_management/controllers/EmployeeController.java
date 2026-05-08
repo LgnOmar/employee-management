@@ -39,6 +39,26 @@ public class EmployeeController {
         }
     }
 
+    @PutMapping("{employeeId}")
+    public Employee updateOne(@PathVariable UUID employeeId,
+                              @RequestBody Employee employee) {
+
+        Optional<Employee> existingEmployee = employees.stream()
+                .filter(emp -> emp.getId().equals(employeeId))
+                .findFirst();
+
+        if (existingEmployee.isPresent()) {
+            existingEmployee.get().setFirstName(employee.getFirstName());
+            existingEmployee.get().setLastName(employee.getLastName());
+            existingEmployee.get().setEmail(employee.getEmail());
+            existingEmployee.get().setPhoneNumber(employee.getPhoneNumber());
+            existingEmployee.get().setPosition(employee.getPosition());
+            existingEmployee.get().setHireDate(employee.getHireDate());
+            existingEmployee.get().setDepartmentId(employee.getDepartmentId());
+        }
+        return employee;
+    }
+
 
     @PostMapping
     public Employee createOne(@RequestBody Employee employee) {
